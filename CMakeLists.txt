@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 project(pyjson)
-
+set(BUILD_SHARED_LIBS on)
 ################################################################################
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -40,18 +40,12 @@ pyjson_download_project(eigen
 find_package(PythonInterp 3 QUIET)
 
 add_subdirectory(external/pybind11)
-
-pybind11_add_module(pyjson main.cpp)
-
-target_include_directories(pyjson
-	SYSTEM PUBLIC
-		${PYJSON_EXTERNAL}/json/single_include
-		${PYJSON_EXTERNAL}/eigen
+include_directories(
+	${PYJSON_EXTERNAL}/json/single_include
+	${PYJSON_EXTERNAL}/eigen
 )
 
-# Generate position independent code
-set_target_properties(pyjson PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
-# Output location
-set_target_properties(pyjson PROPERTIES OUTPUT_NAME "pyjson")
-set_target_properties(pyjson PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_library(json_utils json.cpp)
+add_executable(test main.cpp)
+target_link_libraries(test json_utils)
+target_link_libraries(json_utils pybind11::embed)
