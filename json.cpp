@@ -1,16 +1,4 @@
-#include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
-#include <pybind11/cast.h>
-#include <pybind11/stl.h>
-#include <nlohmann/json.hpp>
-#include <iostream>
-#include <type_traits>
-
-
-namespace py = pybind11;
-namespace nl = nlohmann;
-
-using namespace pybind11::literals;
+#include "json.h"
 
 namespace nlohmann
 {
@@ -105,18 +93,14 @@ namespace nlohmann
         }
     }
 
-    template <>
-    struct adl_serializer<py::object>
+    py::object adl_serializer<py::object>::from_json(const json& j)
     {
-        static py::object from_json(const json& j)
-        {
-            return detail::from_json_impl(j);
-        }
+        return detail::from_json_impl(j);
+    }
 
-        static void to_json(json& j, const py::object& obj)
-        {
-            j = detail::to_json_impl(obj);
-        }
-    };
+    void adl_serializer<py::object>::to_json(json& j, const py::object& obj)
+    {
+        j = detail::to_json_impl(obj);
+    }
 
 }

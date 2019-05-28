@@ -1,7 +1,7 @@
 #include <pybind11/embed.h> // everything needed for embedding
 #include <nlohmann/json.hpp>
 
-#include "json.cpp"
+#include "json.h"
 
 namespace py = pybind11;
 namespace nl = nlohmann;
