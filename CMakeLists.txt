@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.1)
 project(pyjson)
 set(BUILD_SHARED_LIBS on)
-################################################################################
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+################################################################################
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(PYJSON_EXTERNAL ${CMAKE_CURRENT_SOURCE_DIR}/external)
-
 ################################################################################
 
 include(DownloadProject)
